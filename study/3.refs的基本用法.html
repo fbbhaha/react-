@@ -1,0 +1,101 @@
+<!--
+ * @Description: 
+ * @Author: bb f
+ * @Date: 2021-08-03 21:41:18
+ * @LastEditors: bb f
+ * @LastEditTime: 2021-08-03 23:26:39
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+
+    <body>
+        <div id="app1"></div>
+        <div id="app2"></div>
+        <div id="app3"></div>
+    </body>
+
+    <script type="text/javascript" src="./js/react.development.js"></script>
+    <script type="text/javascript" src="./js/react-dom.development.js"></script>
+    <script type="text/javascript" src="./js/babel.min.js"></script>
+    <script type="text/javascript" src="./js/prop-types.js"></script>
+
+    <script type="text/babel">
+        // 1.字符串类型ref 此为16版本之前用法 或被弃用 使用过多会产生性能问题
+        class InputDemo1 extends React.Component {
+            showMessage = () => {
+                const input = this.refs.input;
+                alert(input.value);
+            };
+            render() {
+                return (
+                    <div>
+                        <input ref="input" type="text" />
+                        <button onClick={this.showMessage}>显示当前值</button>
+                    </div>
+                );
+            }
+        }
+        // 2.回调函数类型ref 新写法 推荐使用
+        class InputDemo2 extends React.Component {
+            state = {
+                isHot: false,
+            };
+            showMessage = () => {
+                const input = this.input;
+                alert(input.value);
+            };
+            changeWeather = () => {
+                this.setState({
+                    isHot: !this.state.isHot,
+                });
+                console.log(this.input.value);
+            };
+            /**
+             * 此处使用函数内敛方式赋值ref 此内联函数在组件更新是会执行两次
+             * 一次返回null，一次返回正常的dom节点
+             * 将方法挂载到class上就不会出现该问题
+             * */
+            render() {
+                const { isHot } = this.state;
+                return (
+                    <div>
+                        <div>today is {isHot ? 'hot' : 'cold'}</div>
+                        <input
+                            ref={currentDom => {
+                                this.input = currentDom;
+                            }}
+                            type="text"
+                        />
+                        <button onClick={this.showMessage}>显示当前值</button>
+                        <button onClick={this.changeWeather}>change weather</button>
+                    </div>
+                );
+            }
+        }
+        // 3.createRef方式 最推荐使用
+        class InputDemo3 extends React.Component {
+            // React.createRef()方法创建一个存放ref的容器，且只能存放一个dom节点
+            inputRef = React.createRef();
+            showMessage = () => {
+                alert(this.inputRef.current.value);
+            };
+            render() {
+                return (
+                    <div>
+                        <input ref={this.inputRef} type="text" />
+                        <button onClick={this.showMessage}>show message</button>
+                    </div>
+                );
+            }
+        }
+        ReactDOM.render(<InputDemo1 />, document.getElementById('app1'));
+        ReactDOM.render(<InputDemo2 />, document.getElementById('app2'));
+        ReactDOM.render(<InputDemo3 />, document.getElementById('app3'));
+    </script>
+</html>

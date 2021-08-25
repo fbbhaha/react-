@@ -1,0 +1,59 @@
+<!--
+ * @Description: 
+ * @Author: bb f
+ * @Date: 2021-07-29 21:42:36
+ * @LastEditors: bb f
+ * @LastEditTime: 2021-08-11 15:14:15
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <style>
+        .title {
+            color: aqua;
+        }
+    </style>
+
+    <body>
+        <div id="app"></div>
+    </body>
+
+    <script type="text/javascript" src="./js/react.development.js"></script>
+    <script type="text/javascript" src="./js/react-dom.development.js"></script>
+    <script type="text/javascript" src="./js/babel.min.js"></script>
+    <script type="text/javascript" src="./js/prop-types.js"></script>
+
+    <script type="text/babel">
+        class Weather extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    isHot: false,
+                };
+                // this.changeWeather = this.changeWeather.bind(this);
+            }
+
+            render() {
+                const { isHot } = this.state;
+                return <h1 onClick={this.changeWeather}>{isHot ? '寒冷' : '炎热'}</h1>;
+            }
+            // 这种定义方式会将该方法挂载到原型上去，
+            // 此时在class内部是可以使用的，但是在render的模板中用不了，模板中的this指向的是window
+            // 所以我们要用bind方法将该方法定义到类的实例属性上去，此时方法内部的this就是组件本身了
+            // 使用等号赋值的方式定义方法或者属性就不会出现这样的情况，会直接成为实例属性
+            changeWeather() {
+                console.log(this);
+                this.setState({
+                    isHot: !this.state.isHot,
+                });
+            }
+        }
+
+        ReactDOM.render(<Weather />, document.getElementById('app'));
+    </script>
+</html>

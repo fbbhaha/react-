@@ -1,0 +1,94 @@
+<!--
+ * @Description: 
+ * @Author: bb f
+ * @Date: 2021-08-06 10:38:20
+ * @LastEditors: bb f
+ * @LastEditTime: 2021-08-11 14:32:01
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            'use strict';
+            class Demo {
+                #password = '123'; // 私有实例属性
+                // name; // 实例属性
+                static USER_TYPE = 'admin'; // 静态属性
+
+                static #MAX_INSTANCES = 2; // 私有静态属性
+                static #CURRENT_INSTANCE_NUM = 0;
+                constructor(name) {
+                    if (++Demo.#CURRENT_INSTANCE_NUM > Demo.#MAX_INSTANCES)
+                        throw new Error(
+                            'instance num is max. current instance number:' +
+                                Demo.#CURRENT_INSTANCE_NUM
+                        );
+                    this.name = name; // 实例属性
+                }
+                // 这种方式定义的方法是挂载在原型上的 在类的proptype中，
+                getPassword() {
+                    return this.#password;
+                }
+                getInstance() {
+                    console.log(this);
+                    console.log(this.getPassword());
+                    this.#getData();
+                }
+                #getData() {
+                    console.log('private method');
+                }
+                #nameValue;
+                // 有get set方法的属性必须定义在constructor中，不能在外面定义
+                get name() {
+                    console.log('get name');
+                    return this.#nameValue;
+                }
+                set name(name) {
+                    console.log('set name');
+                    if (name === '') throw new Error('value cannot be empty');
+                    this.#nameValue = name;
+                }
+            }
+            const demo = new Demo('fbb');
+            console.log(demo.name);
+            console.log(Demo.USER_TYPE);
+            console.log(demo.getPassword());
+            const demo1 = new Demo('fbb');
+            demo1.getInstance();
+            demo1.name = '12';
+            // const demo2 = new Demo('fbb');
+
+            class Animal {
+                #sex = 'man';
+                constructor(name) {
+                    this.name = name;
+                }
+                shake() {
+                    console.log(this.name + ' can shake!');
+                }
+            }
+            class Dog extends Animal {
+                constructor(name, age) {
+                    super(name);
+                    this.age = age;
+                }
+                my() {
+                    super.shake();
+                    console.log(this.name + ' can run!', 'dog age:' + this.age);
+                    console.log(this.sex);
+                }
+            }
+            const dog = new Dog('dog', 12);
+            dog.shake();
+            dog.my();
+            console.log(dog.constructor === Dog);
+            console.log(dog instanceof Animal);
+        </script>
+    </body>
+</html>

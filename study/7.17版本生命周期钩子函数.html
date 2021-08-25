@@ -1,0 +1,134 @@
+<!--
+ * @Description: 
+ * @Author: bb f
+ * @Date: 2021-08-06 14:08:02
+ * @LastEditors: bb f
+ * @LastEditTime: 2021-08-06 16:31:35
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <script type="text/javascript" src="./js/react.development.js"></script>
+        <script type="text/javascript" src="./js/react-dom.development.js"></script>
+        <script type="text/javascript" src="./js/babel.min.js"></script>
+        <script type="text/javascript" src="./js/prop-types.js"></script>
+    </head>
+    <style>
+        .newsList {
+            height: 150px;
+            width: 100px;
+            background-color: aqua;
+            overflow: auto;
+        }
+        .news {
+            height: 30px;
+        }
+    </style>
+    <body>
+        <div id="app1"></div>
+        <div id="app2"></div>
+    </body>
+    <script type="text/babel">
+        class CarBox extends React.Component {
+            // 1.构造函数第一个执行
+            constructor(props) {
+                console.log('F---constructor');
+                super(props);
+                this.state = {
+                    carName: 'bazze',
+                };
+            }
+            changeCar = () => {
+                this.setState({
+                    carName: 'bao ma',
+                });
+            };
+            unmountComponent = () => {
+                ReactDOM.unmountComponentAtNode(document.getElementById('app1'));
+            };
+            // 2.获得prop中的派生状态 用于 state的值在任何时候都取决于props
+            static getDerivedStateFromProps(props, state) {
+                console.log('F---getDrivedStateFromProps', props, state);
+                // return { carName: 'aaa' };
+                return null;
+            }
+            // 3.组件挂载
+            render() {
+                console.log('F---render');
+                return (
+                    <div>
+                        <p>car box</p>
+                        <Car carName={this.state.carName} />
+                        <button onClick={this.changeCar}>change car</button>
+                        <button onClick={this.unmountComponent}>unmount component</button>
+                    </div>
+                );
+            }
+            // 4.组件挂载完成之后
+            componentDidMount() {
+                console.log('F---componentDidMounted');
+            }
+            // 5.setState方法执行之后 判断是否进行组件更新，此处需返回一个布尔值，true则更新页面 不写该方法默认返回true
+            shouldComponentUpdate() {
+                console.log('F---shouldComponentUpdate');
+                return true;
+            }
+            // 6.在页面DOM更新之前获取一下当前的页面内容，例如当前的DOM节点高度，该值可以传给下一个生命周期
+            getSnapshotBeforeUpdate() {
+                console.log('F---getSnapshotBefeoreUpdate');
+                return 123;
+            }
+            // 7.render执行后 state更新完成
+            componentDidUpdate(prevProps, prevState, snapshotValue) {
+                console.log('F---componentDidUpdate', prevProps, prevState, snapshotValue);
+            }
+            // 8.页面被卸载之前触发 常用于做一些收尾工作，可用ReactDOM.unmountComponentAtNode()方法卸载组件
+            componentWillUnmount() {
+                console.log('F---componentWillUnmount');
+            }
+        }
+
+        class Car extends React.Component {
+            render() {
+                return <p>new car: {this.props.carName}</p>;
+            }
+        }
+
+        ReactDOM.render(<CarBox carName="qqqq" />, document.getElementById('app1'));
+
+        class NewsList extends React.Component {
+            state = {
+                list: [],
+            };
+            componentDidMount() {
+                setInterval(() => {
+                    this.setState({
+                        list: ['new' + (this.state.list.length + 1), ...this.state.list],
+                    });
+                }, 1000);
+            }
+            getSnapshotBeforeUpdate() {
+                return this.listRef.scrollHeight;
+            }
+            componentDidUpdate(preProps, preState, height) {
+                this.listRef.scrollHeight += 30;
+            }
+            render() {
+                return (
+                    <div className="newsList" ref={c => (this.listRef = c)}>
+                        {this.state.list.map(item => (
+                            <div className="news" key={item}>
+                                {item}
+                            </div>
+                        ))}
+                    </div>
+                );
+            }
+        }
+        ReactDOM.render(<NewsList />, document.getElementById('app2'));
+    </script>
+</html>

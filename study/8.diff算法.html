@@ -1,0 +1,78 @@
+<!--
+ * @Description: 
+ * @Author: bb f
+ * @Date: 2021-08-06 16:31:49
+ * @LastEditors: bb f
+ * @LastEditTime: 2021-08-06 17:12:24
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <script type="text/javascript" src="./js/react.development.js"></script>
+        <script type="text/javascript" src="./js/react-dom.development.js"></script>
+        <script type="text/javascript" src="./js/babel.min.js"></script>
+        <script type="text/javascript" src="./js/prop-types.js"></script>
+    </head>
+    <body>
+        <div id="app"></div>
+    </body>
+    <script type="text/babel">
+        class Person extends React.Component {
+            state = {
+                persons: [
+                    { id: 1, name: 'li' },
+                    { id: 2, name: 'zhang' },
+                ],
+            };
+            add = () => {
+                this.setState({
+                    persons: [{ id: 3, name: 'wang' }, ...this.state.persons],
+                });
+            };
+            render() {
+                return (
+                    <div>
+                        <button onClick={this.add}>add</button>
+                        <ul>
+                            {this.state.persons.map((item, index) => (
+                                <li key={index}>
+                                    {item.name}
+                                    <input key={index} />
+                                </li>
+                            ))}
+                        </ul>
+                        <ul>
+                            {this.state.persons.map((item, index) => (
+                                <li key={item.id}>
+                                    {item.name}
+                                    <input key={item.id} />
+                                </li>
+                            ))}
+                        </ul>
+                        <Person1 persons={this.state.persons} />
+                    </div>
+                );
+            }
+        }
+        class Person1 extends React.Component {
+            render() {
+                return (
+                    <ul>
+                        {this.props.persons.map((item, index) => (
+                            <li key={index}>
+                                {item.name}
+                                <input key={index} />
+                            </li>
+                        ))}
+                    </ul>
+                );
+            }
+        }
+
+        ReactDOM.render(<Person />, document.getElementById('app'));
+    </script>
+</html>

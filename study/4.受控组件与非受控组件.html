@@ -1,0 +1,84 @@
+<!--
+ * @Description: 
+ * @Author: bb f
+ * @Date: 2021-08-04 22:44:05
+ * @LastEditors: bb f
+ * @LastEditTime: 2021-08-04 23:22:58
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <script type="text/javascript" src="./js/react.development.js"></script>
+        <script type="text/javascript" src="./js/react-dom.development.js"></script>
+        <script type="text/javascript" src="./js/babel.min.js"></script>
+        <script type="text/javascript" src="./js/prop-types.js"></script>
+    </head>
+    <body>
+        <div id="app1"></div>
+        <div id="app2"></div>
+    </body>
+    <script type="text/babel">
+        // 非受控组件：表单项的内容的改变 不会影响和改变state
+        class DataForm1 extends React.Component {
+            handleSubmit = e => {
+                e.preventDefault();
+                // console.log(e.target.username);
+                alert(this.refs.input1.value + '   ' + this.input2.value);
+            };
+            render() {
+                return (
+                    <form onSubmit={this.handleSubmit}>
+                        <input ref="input1" type="text" name="username" />
+                        <input ref={c => (this.input2 = c)} type="text" name="password" />
+                        <button type="submit">submit</button>
+                    </form>
+                );
+            }
+        }
+        ReactDOM.render(<DataForm1 />, document.getElementById('app1'));
+
+        // 受控组件：表单项的输入改变会直接影响到state的变化
+        class DataForm2 extends React.Component {
+            handleSubmit = e => {
+                e.preventDefault();
+                // console.log(e.target.username);
+                alert(this.state.username + '   ' + this.state.password);
+            };
+
+            state = {
+                username: '',
+                password: '',
+            };
+            // 此处使用了函数的柯里化原理，使用高阶函数的方法使得操作更加简便
+            handleFormItemChange = dataType => {
+                return event => {
+                    this.setState({
+                        [dataType]: event.target.value,
+                    });
+                };
+            };
+            render() {
+                return (
+                    <form onSubmit={this.handleSubmit}>
+                        <input
+                            onChange={this.handleFormItemChange('username')}
+                            type="text"
+                            name="username"
+                        />
+                        <input
+                            onChange={this.handleFormItemChange('password')}
+                            type="text"
+                            name="password"
+                        />
+                        <button type="submit">submit</button>
+                    </form>
+                );
+            }
+        }
+        ReactDOM.render(<DataForm2 />, document.getElementById('app2'));
+    </script>
+</html>
