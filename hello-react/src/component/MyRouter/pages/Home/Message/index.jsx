@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import { Link, Route } from 'react-router-dom'
-import Detail from './Detail'
+// import Detail from './Detail'
+const Detail = lazy(() => import('./Detail'))
 
 export default function Message() {
     return (
@@ -17,8 +18,9 @@ export default function Message() {
             <Link replace to={{ pathname: '/home/message/detail/1', state: { id: 1, title: '消息1' } }}>Message1</Link>
             ---
             <Link replace to={{ pathname: '/home/message/detail/2', state: { id: 1, title: '消息2' } }}>Message2</Link>
-            <Route path='/home/message/detail' component={Detail} />
-
+            <Suspense fallback={<h2>loading</h2>}>
+                <Route path='/home/message/detail' component={Detail} />
+            </Suspense>
         </div>
     )
 }

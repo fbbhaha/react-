@@ -3,13 +3,13 @@
  * @Author: bb f
  * @Date: 2021-08-12 10:26:03
  * @LastEditors: bb f
- * @LastEditTime: 2021-08-12 15:51:20
+ * @LastEditTime: 2021-08-25 16:48:01
  */
 
 import React, { Component } from 'react'
 import { Button, Select } from 'antd'
 import store from '@/redux/store'
-import { createAsyncIncrementAction, createDecrementAction, createIncrementAction } from '@/redux/count_action'
+import { createAsyncIncrementAction, createDecrementAction, createIncrementAction } from '@/redux/actions/count'
 
 class ReduxDemo extends Component {
     state = {

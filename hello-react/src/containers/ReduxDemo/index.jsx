@@ -3,11 +3,11 @@
  * @Author: bb f
  * @Date: 2021-08-12 10:26:03
  * @LastEditors: bb f
- * @LastEditTime: 2021-08-25 10:27:22
+ * @LastEditTime: 2021-08-25 16:48:14
  */
 // 引入ui组件
 import ReduxDemoUI from '@/component/ReduxDemo'
-import { createAsyncIncrementAction, createDecrementAction, createIncrementAction } from '@/redux/count_action';
+import { createAsyncIncrementAction, createDecrementAction, createIncrementAction } from '@/redux/actions/count';
 
 // 引入connect用用于连接ui组件和redux
 import { connect } from "react-redux";

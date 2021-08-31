@@ -3,10 +3,10 @@
  * @Author: bb f
  * @Date: 2021-08-12 11:18:35
  * @LastEditors: bb f
- * @LastEditTime: 2021-08-12 13:47:37
+ * @LastEditTime: 2021-08-25 14:59:21
  */
 
-import { DECREMENT, INCREMENT } from './constant';
+import { DECREMENT, INCREMENT } from '../constant';
 
 /**
  * 同步action 返回的是一个对象

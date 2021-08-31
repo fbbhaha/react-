@@ -4,11 +4,11 @@
  * @Author: bb f
  * @Date: 2021-08-12 10:26:03
  * @LastEditors: bb f
- * @LastEditTime: 2021-08-12 15:49:42
+ * @LastEditTime: 2021-08-25 16:51:58
  */
 import React, { Component } from 'react'
 import { Button, Select } from 'antd'
-import { createAsyncIncrementAction, createDecrementAction, createIncrementAction } from '@/redux/count_action'
+import { createAsyncIncrementAction, createDecrementAction, createIncrementAction } from '@/redux/actions/count'
 // 引入connect用用于连接ui组件和redux
 import { connect } from "react-redux";
 
@@ -41,7 +41,7 @@ class ReduxDemo extends Component {
 
 
 export default connect(
-    store => ({ data: store }),
+    store => ({ data: store.count }),
     {
         increment: createIncrementAction,
         decrement: createDecrementAction,

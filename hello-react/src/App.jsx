@@ -7,9 +7,12 @@ import MyRouter from './component/MyRouter';
 import Header from './component/Header'
 import List from './component/List'
 import Footer from './component/Footer'
-import axios from 'axios'
+// import axios from 'axios'
 import AntdDemo from './component/AntdDemo';
-import ReduxDemo from './component/ReduxDemo/mergeContainer';
+import ReduxDemo from './containers/ReduxDemo/mergeContainer';
+import Person from './containers/Person';
+import OneSetState from './component/reactExtend/OneSetState';
+import TwoHooks from './component/reactExtend/TwoHooks';
 export default class App extends Component {
     state = {
         todos: [
@@ -73,6 +76,10 @@ export default class App extends Component {
                 <MyRouter />
                 <AntdDemo />
                 <ReduxDemo />
+                <Person />
+
+                <OneSetState />
+                <TwoHooks />
             </div>
 
         )

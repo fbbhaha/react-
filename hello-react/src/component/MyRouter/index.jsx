@@ -1,9 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component, lazy, Suspense } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import MyNavLink from './components/MyNavLink'
-import Home from './pages/Home'
-import About from './pages/About'
+// import Home from './pages/Home'
+// import About from './pages/About'
 import Header from './pages/Header'
+
+const Home = lazy(() => import('./pages/Home'))
+const About = lazy(() => import('./pages/About'))
 
 export default class MyRouter extends Component {
     /**
@@ -29,9 +32,10 @@ export default class MyRouter extends Component {
                     在route上添加exact配置是否开启精准匹配 exact={ true } 严格匹配不要随便开启
                 */}
                 <MyNavLink to="/home/a/b">home</MyNavLink>
-                {/* swich标签会使页面路由匹配到就不再匹配了，从而提高效率 */}
-                <Switch>
-                    {/*
+                <Suspense fallback={<h1>loading</h1>}>
+                    {/* swich标签会使页面路由匹配到就不再匹配了，从而提高效率 */}
+                    <Switch>
+                        {/*
                     Route中的组件为路由组件，路由器在渲染是会默认传入prop值
                         history:
                             go: ƒ go(n)
@@ -50,13 +54,16 @@ export default class MyRouter extends Component {
                             path: "/home"
                             url: "/home"
                 */}
-                    {/* <Route exact={true} path='/about' component={About} /> */}
-                    <Route path='/about' component={About} />
-                    <Route path='/home' component={Home} />
-                    {/* 放在最后都匹配不上则返回重定向结果 */}
-                    <Redirect to='home' />
-                </Switch>
 
+                        {/* <Route exact={true} path='/about' component={About} /> */}
+                        <Route path='/about' component={About} />
+                        <Route path='/home' component={Home} />
+                        {/* 放在最后都匹配不上则返回重定向结果 */}
+                        <Redirect to='home' />
+
+
+                    </Switch>
+                </Suspense>
             </div>
 
         )
